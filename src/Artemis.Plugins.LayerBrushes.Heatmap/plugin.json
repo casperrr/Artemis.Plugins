@@ -1,7 +1,8 @@
 {
     "Guid": "E68A9E48-0B10-4BFD-8731-91273F36FFC1",
+    "MinimumVersion": "1.2025.1222.3",
     "Name": "Keyboard Heatmap",
-    "Description": "A heatmap layer brush showing key press frequency",
+    "Description": "A heatmap layer brush showing key press frequency.",
     "Author": "casperrr",
     "Website": "https://github.com/casperrr",
     "Repository": "https://github.com/casperrr/Artemis.Plugins",
