@@ -1,7 +1,7 @@
 using Artemis.Core;
 using Artemis.UI.Shared;
 
-namespace Artemis.Plugins.Heatmap;
+namespace Artemis.Plugins.LayerBrushes.Heatmap;
 
 public class Bootstrapper : PluginBootstrapper
 {

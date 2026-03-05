@@ -1,0 +1,15 @@
+{
+    "Guid": "E68A9E48-0B10-4BFD-8731-91273F36FFC1",
+    "Name": "Keyboard Heatmap",
+    "Description": "A heatmap layer brush showing key press frequency",
+    "Author": "casperrr",
+    "Website": "https://github.com/casperrr",
+    "Repository": "https://github.com/casperrr/Artemis.Plugins",
+    "Icon": "DataMatrix",
+    "Version": "0.0.1",
+    "Main": "Artemis.Plugins.LayerBrushes.Heatmap.dll",
+    "AutoEnableProperties": true,
+    "RequiresAdmin": false,
+    "Platforms": "Windows,Linux,OSX",
+    "Api": "1.0.0"
+}
