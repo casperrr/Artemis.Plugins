@@ -7,7 +7,7 @@
     "Website": "https://github.com/casperrr",
     "Repository": "https://github.com/casperrr/Artemis.Plugins",
     "Icon": "DataMatrix",
-    "Version": "0.0.1",
+    "Version": "1.0.0",
     "Main": "Artemis.Plugins.LayerBrushes.Heatmap.dll",
     "AutoEnableProperties": true,
     "RequiresAdmin": false,
