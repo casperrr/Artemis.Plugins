@@ -53,7 +53,7 @@ jobs:
                 $publishDir = '${{ steps.compute.outputs.publishDir }}'
                 $pluginJsonPath = Join-Path $publishDir 'plugin.json'
                 $json = Get-Content $pluginJsonPath -Raw | ConvertFrom-Json
-                $version = (Get-Data).ToString('yyyy.MMdd.HHmm')
+                $version = (Get-Date).ToString('yyyy.MMdd.HHmm')
                 $json.version = $version
                 $json | ConvertToJson -Depth 10 | Set-Content $pluginJsonPath
 
