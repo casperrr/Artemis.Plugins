@@ -55,7 +55,7 @@ jobs:
                 $json = Get-Content $pluginJsonPath -Raw | ConvertFrom-Json
                 $version = (Get-Date).ToString('yyyy.MMdd.HHmm')
                 $json.version = $version
-                $json | ConvertToJson -Depth 10 | Set-Content $pluginJsonPath
+                $json | ConvertTo-Json -Depth 10 | Set-Content $pluginJsonPath
 
             - name: Upload to workshop
               run: artemis-plugin-uploader upload --pat ${{ secrets.WORKSHOP_PAT }} --folder "${{ steps.compute.outputs.publishDir }}"
