@@ -1,0 +1,17 @@
+name: Artemis.Plugins.LayerBrushes.Heatmap - Build and upload
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - 'src/Artemis.Plugins.LayerBrushes.Heatmap/**'
+
+jobs:
+    upload:
+        uses: ./.github/workflows/plugin-upload.yml
+        with:
+            projectPath: 'src/Artemis.Plugins.LayerBrushes.Heatmap/Artemis.Plugins.LayerBrushes.Heatmap.csproj'
+        secrets:
+            WORKSHOP_PAT: ${{ secrets.WORKSHOP_PAT }}
