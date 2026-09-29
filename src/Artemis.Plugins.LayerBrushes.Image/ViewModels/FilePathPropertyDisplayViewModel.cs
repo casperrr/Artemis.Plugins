@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Artemis.Core;
@@ -10,6 +13,11 @@ namespace Artemis.Plugins.LayerBrushes.Image.ViewModels;
 
 public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
 {
+    private static readonly string[] SupportedExtensions =
+    [
+        ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp"
+    ];
+    
     private readonly IWindowService _windowService;
 
     public FilePathPropertyDisplayViewModel(LayerProperty<string> layerProperty,
@@ -20,22 +28,33 @@ public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
         _windowService = windowService;
 
         Browse = ReactiveCommand.CreateFromTask(ExecuteBrowse);
+
+        this.WhenAnyValue(viewModel => viewModel.InputValue)
+            .Subscribe(_ => 
+            {
+                this.RaisePropertyChanged(nameof(IsImageValid));
+                this.RaisePropertyChanged(nameof(IsImageInvalid));
+            });
     }
 
     public ReactiveCommand<Unit, Unit> Browse { get; }
+
+    public bool IsImageValid =>
+        !string.IsNullOrWhiteSpace(InputValue) &&
+        File.Exists(InputValue) &&
+        SupportedExtensions.Contains(
+            Path.GetExtension(InputValue),
+            StringComparer.OrdinalIgnoreCase);
+    public bool IsImageInvalid => !IsImageValid;
 
     private async Task ExecuteBrowse()
     {
         var dialog = _windowService.CreateOpenFileDialog()
             .WithTitle("Choose Image")
-            .HavingFilter(f => f
-                .WithExtension("png")
-                .WithExtension("jpg")
-                .WithExtension("jpeg"));
-        var files = await dialog.ShowAsync();
+            .HavingFilter(f => f.WithBitmaps());
+
+        string[]? files = await dialog.ShowAsync();
         if (files?.Length == 1)
-        {
             InputValue = files[0];
-        }
     }
 }

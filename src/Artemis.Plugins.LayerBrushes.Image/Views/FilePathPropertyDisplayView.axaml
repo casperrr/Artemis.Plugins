@@ -3,18 +3,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Artemis.Plugins.LayerBrushes.Image.ViewModels;assembly=Artemis.Plugins.LayerBrushes.Image"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Artemis.Plugins.LayerBrushes.Image.Views.FilePathPropertyDisplayView"
              x:DataType="vm:FilePathPropertyDisplayViewModel">
-  <StackPanel Orientation="Horizontal" Spacing="8">
-    <TextBox
-      Text="{CompiledBinding InputValue}"
-      Watermark="Enter image path or browse" />
-  
-    <Button
-        Classes="accent"
-        Command="{CompiledBinding Browse}">
+  <Grid ColumnDefinitions="*,Auto,Auto"
+        ColumnSpacing="8"
+        VerticalAlignment="Center">
+    <TextBox Grid.Column="0"
+             Classes="condensed"
+             MinWidth="80"
+             Text="{CompiledBinding InputValue}"
+             Watermark="Enter image path or browse"
+             VerticalAlignment="Center" />
+    <avalonia:MaterialIcon Grid.Column="1"
+                           Kind="CheckCircleOutline"
+                           Foreground="Green"
+                           Width="20"
+                           Height="20"
+                           VerticalAlignment="Center"
+                           IsVisible="{CompiledBinding IsImageValid}"/>
+    <avalonia:MaterialIcon Grid.Column="1"
+                           Kind="CrossCircleOutline"
+                           Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                           Width="20"
+                           Height="20"
+                           VerticalAlignment="Center"
+                           IsVisible="{CompiledBinding IsImageInvalid}"/>
+    <Button Grid.Column="2"
+            Classes="accent"
+            Command="{CompiledBinding Browse}"
+            VerticalAlignment="Center">
       Browse
     </Button>
-  </StackPanel>
+  </Grid>
 </UserControl>
