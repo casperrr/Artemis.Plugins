@@ -7,6 +7,7 @@ using Artemis.Core;
 using Artemis.UI.Shared.Services;
 using Artemis.UI.Shared.Services.ProfileEditor;
 using Artemis.UI.Shared.Services.PropertyInput;
+using Avalonia.Media.Imaging;
 using ReactiveUI;
 
 namespace Artemis.Plugins.LayerBrushes.Image.ViewModels;
@@ -20,7 +21,8 @@ public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
     
     private readonly IWindowService _windowService;
 
-    public FilePathPropertyDisplayViewModel(LayerProperty<string> layerProperty,
+    public FilePathPropertyDisplayViewModel(
+        LayerProperty<string> layerProperty,
         IProfileEditorService profileEditorService,
         IPropertyInputService propertyInputService,
         IWindowService windowService) : base(layerProperty, profileEditorService, propertyInputService)
@@ -34,6 +36,7 @@ public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
             {
                 this.RaisePropertyChanged(nameof(IsImageValid));
                 this.RaisePropertyChanged(nameof(IsImageInvalid));
+                UpdatePreviewImage();
             });
     }
 
@@ -46,6 +49,7 @@ public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
             Path.GetExtension(InputValue),
             StringComparer.OrdinalIgnoreCase);
     public bool IsImageInvalid => !IsImageValid;
+    public Bitmap? PreviewImage { get; private set; }
 
     private async Task ExecuteBrowse()
     {
@@ -56,5 +60,17 @@ public class FilePathPropertyDisplayViewModel : PropertyInputViewModel<string>
         string[]? files = await dialog.ShowAsync();
         if (files?.Length == 1)
             InputValue = files[0];
+    }
+
+    private void UpdatePreviewImage()
+    {
+        PreviewImage?.Dispose();
+        PreviewImage = null;
+
+        string? fileName = InputValue;
+        if (!IsImageValid || string.IsNullOrWhiteSpace(fileName)) return;
+
+        PreviewImage = new Bitmap(fileName);
+        this.RaisePropertyChanged(nameof(PreviewImage));
     }
 }
