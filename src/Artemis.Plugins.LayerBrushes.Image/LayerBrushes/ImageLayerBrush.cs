@@ -31,13 +31,30 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
     {
         if (_image == null) return;
 
-        SKRect destination = CalculateContainRect(_image, bounds);
+        // using SKPaint imagePaint = new() { IsAntialias = true };
 
-        using SKPaint imagePaint = new()
+        switch (Properties.ScalingMode.CurrentValue)
         {
-            IsAntialias = true
-        };
-        canvas.DrawBitmap(_image, destination, imagePaint);
+            case ImageScalingMode.Fit:
+            {
+                SKRect destination = CalculateFitRect(_image, bounds);
+                canvas.DrawBitmap(_image, destination, paint);
+                break;
+            }
+            case ImageScalingMode.Fill:
+            {
+                
+                SKRect source = CalculateFillRect(_image, bounds);
+                canvas.DrawBitmap(_image, source, bounds, paint);
+                break;
+            }
+            case ImageScalingMode.Stretch:
+            {
+                canvas.DrawBitmap(_image, bounds, paint);
+                break;
+            }
+            default: throw new ArgumentOutOfRangeException();
+        }
     }
 
     protected override void Dispose(bool disposing)
@@ -70,19 +87,30 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
         _image = null;
     }
 
-    private static SKRect CalculateContainRect(SKBitmap image, SKRect bounds)
+    private static SKRect CalculateFitRect(SKBitmap image, SKRect bounds)
     {
         float scale = Math.Min(
-            bounds.Width/image.Width,
+            bounds.Width /image.Width,
             bounds.Height/image.Height);
-
-        float width = image.Width * scale;
+        float width  = image.Width  * scale;
         float height = image.Height * scale;
-
-        float left = bounds.Left + (bounds.Width-width)/2;
-        float top  = bounds.Top  + (bounds.Height-height)/2;
-
+        float left   = bounds.Left + (bounds.Width-width)/2;
+        float top    = bounds.Top  + (bounds.Height-height)/2;
         return new SKRect(left, top, left+width, top+height);
     }
+
+    private static SKRect CalculateFillRect(SKBitmap image, SKRect bounds)
+    {
+        float scale = Math.Max(
+            bounds.Width /image.Width,
+            bounds.Height/image.Height);
+        float width  = bounds.Width /scale;
+        float height = bounds.Height/scale;
+        float left = (image.Width -width) /2;
+        float top  = (image.Height-height)/2;
+        return new SKRect(left, top, left+width, top+height);
+    }
+
+
 
 }
