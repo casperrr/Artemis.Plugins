@@ -1,3 +1,4 @@
+using Artemis.Core;
 using Artemis.Core.LayerBrushes;
 using Artemis.Plugins.LayerBrushes.Image.PropertyGroups;
 using SkiaSharp;
@@ -13,19 +14,18 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
     
     public override void EnableLayerBrush()
     {
+        Properties.FileName.CurrentValueSet += FileNameOnCurrentValueSet;
         LoadImageIfNeeded();
     }
 
     public override void DisableLayerBrush()
     {
+        Properties.FileName.CurrentValueSet -= FileNameOnCurrentValueSet;
         DisposeImage();
         _loadedPath = null;
     }
 
-    public override void Update(double deltaTime)
-    {
-        LoadImageIfNeeded();
-    }
+    public override void Update(double deltaTime) { }
 
     public override void Render(SKCanvas canvas, SKRect bounds, SKPaint paint)
     {
@@ -59,8 +59,17 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing) DisposeImage();
+        if (disposing) 
+        {
+            Properties.FileName.CurrentValueSet -= FileNameOnCurrentValueSet;
+            DisposeImage();
+        }
         base.Dispose(disposing);
+    }
+
+    private void FileNameOnCurrentValueSet(object? sender, LayerPropertyEventArgs e)
+    {
+        LoadImageIfNeeded();
     }
 
     private void LoadImageIfNeeded()
@@ -110,7 +119,4 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
         float top  = (image.Height-height)/2;
         return new SKRect(left, top, left+width, top+height);
     }
-
-
-
 }
