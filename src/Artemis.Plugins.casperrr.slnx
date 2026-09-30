@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="Artemis.Plugins.LayerBrushes.Heatmap/Artemis.Plugins.LayerBrushes.Heatmap.csproj" />
+  <Project Path="Artemis.Plugins.LayerBrushes.Image/Artemis.Plugins.LayerBrushes.Image.csproj">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
