@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Artemis.Plugins.LayerBrushes.Image.Views.FilePathPropertyDisplayView"
              x:DataType="vm:FilePathPropertyDisplayViewModel">
-  <Grid ColumnDefinitions="*,Auto,Auto,Auto"
+  <Grid ColumnDefinitions="Auto,Auto,Auto"
         ColumnSpacing="8"
         VerticalAlignment="Center">
     <Border Grid.Column="0"
@@ -19,27 +19,20 @@
              Width="24"
              Height="24" />
     </Border>
-    <TextBox Grid.Column="2"
-             Classes="condensed"
-             MinWidth="80"
-             Text="{CompiledBinding InputValue}"
-             Watermark="Enter image path or browse"
-             VerticalAlignment="Center" />
-    <avalonia:MaterialIcon Grid.Column="1"
-                           Kind="CheckCircleOutline"
-                           Foreground="{DynamicResource SystemFillColorSuccessBrush}"
-                           Width="20"
-                           Height="20"
-                           VerticalAlignment="Center"
-                           IsVisible="{CompiledBinding IsImageValid}"/>
-    <avalonia:MaterialIcon Grid.Column="1"
+    <avalonia:MaterialIcon Grid.Column="0"
                            Kind="CrossCircleOutline"
                            Foreground="{DynamicResource SystemFillColorCriticalBrush}"
                            Width="20"
                            Height="20"
                            VerticalAlignment="Center"
                            IsVisible="{CompiledBinding IsImageInvalid}"/>
-    <Button Grid.Column="3"
+    <TextBox Grid.Column="1"
+             Classes="condensed"
+             MinWidth="80"
+             Text="{CompiledBinding InputValue}"
+             Watermark="Enter image path or browse"
+             VerticalAlignment="Center" />
+    <Button Grid.Column="2"
             Classes="accent"
             Command="{CompiledBinding Browse}"
             VerticalAlignment="Center">
