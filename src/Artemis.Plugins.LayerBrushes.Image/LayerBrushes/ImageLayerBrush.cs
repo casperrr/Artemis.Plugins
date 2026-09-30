@@ -31,8 +31,6 @@ public class ImageLayerBrush : LayerBrush<ImagePropertyGroup>
     {
         if (_image == null) return;
 
-        // using SKPaint imagePaint = new() { IsAntialias = true };
-
         switch (Properties.ScalingMode.CurrentValue)
         {
             case ImageScalingMode.Fit:
